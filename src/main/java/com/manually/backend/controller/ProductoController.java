@@ -55,4 +55,9 @@ public class ProductoController {
         productoRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/categoria/{categoria}")
+    public List<Producto> obtenerPorCategoria(@PathVariable String categoria) {
+        return productoRepository.findByCategoria(categoria);
+    }
 }

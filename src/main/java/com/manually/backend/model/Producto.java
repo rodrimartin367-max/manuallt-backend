@@ -19,9 +19,13 @@ public class Producto {
 
     private String categoria;
 
-    // Recuerda generar los Getters y Setters para "categoria" si no usas Lombok
+    private String imagenUrl; // NUEVO: Para guardar la foto
+
     public String getCategoria() { return categoria; }
     public void setCategoria(String categoria) { this.categoria = categoria; }
+    
+    public String getImagenUrl() { return imagenUrl; }
+    public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
 
     private Boolean destacado = false;
 
