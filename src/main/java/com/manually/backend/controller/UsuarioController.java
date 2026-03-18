@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.manually.backend.model.Usuario;
+import com.manually.backend.model.Video;
 import com.manually.backend.repository.UsuarioRepository;
 
 @RestController
@@ -75,4 +78,10 @@ public class UsuarioController {
             return org.springframework.http.ResponseEntity.ok().build();
         }).orElse(org.springframework.http.ResponseEntity.notFound().build());
     }
+
+    @Repository
+public interface VideoRepository extends JpaRepository<Video, Long> {
+    List<Video> findByProductoId(Long productoId);
+    List<Video> findByUsuarioId(Long usuarioId); 
+}
 }
