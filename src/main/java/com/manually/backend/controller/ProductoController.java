@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,6 +55,25 @@ public class ProductoController {
     public ResponseEntity<?> borrarProducto(@PathVariable Long id) {
         productoRepository.deleteById(id);
         return ResponseEntity.ok().build();
+    }
+
+    // Obtener los datos de un solo producto (para rellenar el formulario)
+    @GetMapping("/{id}")
+    public ResponseEntity<Producto> obtenerProductoPorId(@PathVariable Long id) {
+        return productoRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // Guardar los cambios editados
+    @PutMapping("/{id}")
+    public ResponseEntity<Producto> editarProducto(@PathVariable Long id, @RequestBody Producto productoEditado) {
+        return productoRepository.findById(id).map(producto -> {
+            producto.setNombre(productoEditado.getNombre());
+            producto.setImagenUrl(productoEditado.getImagenUrl());
+            producto.setCategoria(productoEditado.getCategoria());
+            return ResponseEntity.ok(productoRepository.save(producto));
+        }).orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/categoria/{categoria}")
