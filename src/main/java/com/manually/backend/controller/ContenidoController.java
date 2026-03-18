@@ -1,18 +1,26 @@
 package com.manually.backend.controller;
 
-import com.manually.backend.model.Comentario;
-import com.manually.backend.model.Video;
-import com.manually.backend.model.Pieza;
-import com.manually.backend.model.Producto;
-import com.manually.backend.repository.ComentarioRepository;
-import com.manually.backend.repository.VideoRepository;
-import com.manually.backend.repository.PiezaRepository;
-import com.manually.backend.repository.ProductoRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.manually.backend.model.Comentario;
+import com.manually.backend.model.Pieza;
+import com.manually.backend.model.Producto;
+import com.manually.backend.model.Video;
+import com.manually.backend.repository.ComentarioRepository;
+import com.manually.backend.repository.PiezaRepository;
+import com.manually.backend.repository.ProductoRepository;
+import com.manually.backend.repository.VideoRepository;
 
 @RestController
 @RequestMapping("/api/contenido")
@@ -74,5 +82,23 @@ public class ContenidoController {
     public ResponseEntity<?> borrarComentario(@PathVariable Long id) {
         comentarioRepository.deleteById(id);
         return ResponseEntity.ok().build();
+    }
+
+    // Ruta para borrar un video
+    @DeleteMapping("/videos/{id}")
+    public org.springframework.http.ResponseEntity<?> borrarVideo(@PathVariable Long id) {
+        return videoRepository.findById(id).map(video -> {
+            videoRepository.delete(video);
+            return org.springframework.http.ResponseEntity.ok().build();
+        }).orElse(org.springframework.http.ResponseEntity.notFound().build());
+    }
+
+    // Ruta para borrar una pieza
+    @DeleteMapping("/piezas/{id}")
+    public org.springframework.http.ResponseEntity<?> borrarPieza(@PathVariable Long id) {
+        return piezaRepository.findById(id).map(pieza -> {
+            piezaRepository.delete(pieza);
+            return org.springframework.http.ResponseEntity.ok().build();
+        }).orElse(org.springframework.http.ResponseEntity.notFound().build());
     }
 }
